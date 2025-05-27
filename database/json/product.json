@@ -1,0 +1,75 @@
+{
+  "Produto": "T20HU3B PR",
+  "Cor": "Preto",
+  "imagem":"https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+  "Descricao":"Polipropileno com carga mineral com estabilização ao calor para longo prazo.",
+  "AplicacoesTipicas": "Partes estruturais, para uso em ambientes de altas temperaturas no interior do capô do automóvel, dutos, carcaças e sistemas de aquecimento e ventilação.",
+  "EspecificacoesAutomotivas": "FIAT 55246 – PP 70.30, FORD WSK M4D-729-A1, GM QK VALEO NVB 10.037-H, VW TL 440/45 PP6",
+  "Propriedades": {
+    "Physical": [
+      {
+        "Propriedade": "Densidade",
+        "Norma": "ISO 1183",
+        "Unidade": "g/cm3",
+        "Valor": 1.05
+      },
+      {
+        "Propriedade": "Índice de Fluidez (230oC/2.16 kg)",
+        "Norma": "ISO 1133",
+        "Unidade": "g/10min",
+        "Valor": 23
+      },
+      {
+        "Propriedade": "Teor de carga",
+        "Norma": "ISO 3451",
+        "Unidade": "%",
+        "Valor": 21
+      }
+    ],
+    "Mechanical": [
+      { 
+        "Propriedade": "Resistência à Tração no escoamento (50 mm/min)",
+        "Norma": "ISO 527",
+        "Unidade": "MPa",
+        "Valor": 30
+      },
+      {
+        "Propriedade": "Módulo de Flexão a 23oC",
+        "Norma": "ISO 178",
+        "Unidade": "MPa",
+        "Valor": 2400
+      }
+    ],
+    "Impact": [
+      { 
+        "Propriedade": "Izod com entalhe 23°C",
+        "Norma": "ISO 180/1A",
+        "Unidade": "kJ/m2",
+        "Valor": 3
+      },
+      {
+        "Propriedade": "Charpy com entalhe 23oC",
+        "Norma": "ISO 179/1eA",
+        "Unidade": "kJ/m2",
+        "Valor": 4
+      }
+    ],
+    "Thermal": [
+      {
+        "Propriedade": "Temperatura de Deflexão ao calor (0.45 MPa)",
+        "Norma": "ISO 75",
+        "Unidade": "˚C",
+        "Valor": 120
+      }
+    ],
+    "Other": [
+      {
+        "Propriedade": "Flamabilidade",
+        "Norma": "ISO 3795",
+        "Unidade": "mm/min",
+        "Valor": 35
+      }
+    ]
+  },
+  "Observacoes": "Os valores informados são valores típicos e não devem ser utilizados como especificação.  \nO cliente deverá realizar seus próprios testes internamente para verificar a adequabilidade do produto à finalidade a qual se destina.  \nO produto deve ser armazenado em lugar seco, com temperaturas abaixo de 45°C e protegidos da exposição direta ao sol.  \nOs compostos de polipropileno são classificados como materiais não perigosos, e para maiores informações a respeito de segurança, favor consultar o Departamento Técnico para solicitar a F.D.S.  \nMateriais destinados para uso industrial, mas não adequado para aplicações de uso alimentício, farmacêutico e médico."
+}
