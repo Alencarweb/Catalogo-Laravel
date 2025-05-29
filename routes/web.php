@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\AutomotiveSpecificationController;
 use App\Http\Controllers\PublicCatalogController;
+use App\Http\Controllers\Admin\ConfigController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,10 +20,15 @@ use App\Http\Controllers\PublicCatalogController;
 |
 */
 
+
+
+
 // Admin Dashboard protegido
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('products', AdminProductController::class);
+    Route::get('config', [ConfigController::class, 'index'])->name('config.index');
+    Route::post('config', [ConfigController::class, 'save'])->name('config.save');
 
     // api
     Route::get('automotive-specifications/{product}', [AutomotiveSpecificationController::class, 'list'])->name('automotive-specifications.list');

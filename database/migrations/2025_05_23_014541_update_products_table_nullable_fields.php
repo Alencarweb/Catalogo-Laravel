@@ -15,11 +15,12 @@ class UpdateProductsTableNullableFields extends Migration
     {
         Schema::table('products', function (Blueprint $table) {
           
-            $table->string('code')->nullable()->change();
-            $table->string('color')->nullable();
-            $table->string('image_url')->nullable();
-            $table->text('description')->nullable();
-            $table->longText('observations')->nullable();
+            // $table->string('code')->nullable()->change();
+            // $table->string('color')->nullable();
+            // $table->string('image_url')->nullable();
+            // $table->text('description')->nullable();
+            // $table->longText('observations')->nullable();
+
         });
     }
 
@@ -32,7 +33,7 @@ class UpdateProductsTableNullableFields extends Migration
     {
         Schema::table('products', function (Blueprint $table) {
             // Revertendo as alterações
-            $table->string('code')->nullable(false)->change();
+            // $table->string('code')->nullable(false)->change();
         });
     }
 }

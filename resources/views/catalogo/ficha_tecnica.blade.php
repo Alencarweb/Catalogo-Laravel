@@ -135,10 +135,8 @@
     </style>
 </head>
 <body>
-    <button class="print-button" onclick="window.print()">Imprimir Ficha Técnica</button>
-   
-    <h1>FICHA TÉCNICA DE PRODUTO</h1>
 
+    <h1>FICHA TÉCNICA DE PRODUTO</h1>
     <div class="product-header">
         <span class="product-name">Produto: {{ $product->code }}</span>
         <span class="product-color">Cor: {{ $product->color }}</span>
