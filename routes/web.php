@@ -45,6 +45,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 Route::get('/products', [UserProductController::class, 'index']);
 
 // rota para exibir a ficha técnica do produto
+Route::get('/catalogo/layout/{id}', [PublicCatalogController::class, 'show_layout'])->name('catalogo.produto'); 
 Route::get('/catalogo/produto/{id}', [PublicCatalogController::class, 'show'])->name('catalogo.produto'); 
 // rota para gerar o PDF
 Route::get('/catalogo/produto/{id}/pdf', [App\Http\Controllers\PublicCatalogController::class, 'generatePdf'])->name('catalogo.produto.pdf');
