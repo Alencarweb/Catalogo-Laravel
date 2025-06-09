@@ -1,0 +1,195 @@
+  * {
+            -webkit-print-color-adjust: exact; /* Para garantir que cores de fundo sejam impressas */
+            print-color-adjust: exact;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.3;
+            color: #333;
+            max-width: 800px;
+            padding: 0px;
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            margin: auto;
+            background-color:#000;
+        }
+        .col img {
+            width: 25px;
+        }
+        .footer {
+            width: 350px;
+            text-align: center;
+            margin: 20px auto;
+        }
+        h1 {
+            color: #000;
+            font-size: 16px;
+            background-color: #f2f2f2;
+            padding: 5px 0px;
+            border-radius: 5px;
+        }
+        
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        #content{
+            width: 800px;
+            background-color: #fff;
+        }
+        .product-name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .product-color {
+            font-weight: bold;
+        }
+        p {
+            margin: 0;
+        }
+        .section {
+            margin-bottom: 10px;
+        }
+        
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 8px 0;
+            font-size: 12px;
+        }
+        
+        th, td {
+           border-bottom: 1px solid #ddd;
+            padding: 4px;
+            text-align: left;
+        }
+        
+        th {
+            font-weight: bold;
+        }
+        
+        .note {
+            font-style: italic;
+            margin-top: 10px;
+            font-size: 10px;
+            line-height: 1.2;
+        }
+        
+        .footer {
+            margin-top: 15px;
+            font-size: 10px;
+            line-height: 1.2;
+        }
+            footer.footer-layout {
+            background-color: #141B20;
+            display: flex;
+            padding: 20px;
+            color: white;
+            bottom: 0;
+        }
+
+        footer.footer-layout > div {
+            width: 33%;
+        }
+
+        .col {
+            display: flex;
+            padding-bottom: 10px;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .col svg {
+            width: 20px;
+            height: 20px;
+            position: relative;
+        }
+
+        .col > div {width: fit-content;margin-left: 5px;}
+
+        .print-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .footer {
+            page-break-after: always;
+            position: fixed;
+            bottom: 0;
+        }
+        .col-3 {
+    display: flex;
+    gap: 10px;
+    }
+
+    .col-3 .section {
+        background-color: #F3F3F3;
+        padding: 15px;
+        border-radius: 10px;
+        width: 33%;
+    }
+
+    h1 {
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 14px;
+    }
+    .rev {
+        display: flex;
+        justify-content: flex-end;
+        padding: 5px 15px;
+        font-size: 10px;
+    }
+        @media print {
+            body {
+                padding: 0;
+                margin: 0;
+                font-size: 10pt;
+                line-height: 1.2;
+            }
+            
+            .print-button {
+                display: none;
+            }
+            
+            h1 {
+                font-size: 14pt;
+                margin-top: 0;
+            }
+            
+            table {
+                font-size: 9pt;
+                page-break-inside: avoid;
+            }
+            
+            .section {
+                margin-bottom: 8pt;
+            }
+            
+            .note, .footer {
+                font-size: 8pt;
+            }
+           
+            @page {
+                margin: 0.5cm;
+            }
+        }

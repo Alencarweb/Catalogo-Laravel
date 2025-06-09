@@ -24,8 +24,10 @@ class ConfigController extends Controller
     public function save(Request $request)
     {
         $request->validate([
-            'info' => 'nullable|string',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'telefone' => 'nullable|string|max:255',
+            'endereco' => 'nullable|string|max:255',
+            'email'    => 'nullable|email|max:255',
+            'logo'     => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $data = [];
@@ -35,14 +37,19 @@ class ConfigController extends Controller
             $request->file('logo')->move(public_path('conf'), $logoName);
             $data['logo'] = 'conf/' . $logoName;
         } else {
-            // Manter a logo antiga se existir
-            $existing = json_decode(file_get_contents(public_path('conf/info.json')), true);
+            $existing = [];
+            if (file_exists(public_path('conf/info.json'))) {
+                $existing = json_decode(file_get_contents(public_path('conf/info.json')), true);
+            }
             if ($existing && isset($existing['logo'])) {
                 $data['logo'] = $existing['logo'];
             }
         }
 
-        $data['info'] = $request->input('info');
+        // Salva os novos campos
+        $data['telefone'] = $request->input('telefone');
+        $data['endereco'] = $request->input('endereco');
+        $data['email']    = $request->input('email');
 
         file_put_contents(public_path('conf/info.json'), json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 

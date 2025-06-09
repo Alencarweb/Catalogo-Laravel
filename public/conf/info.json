@@ -1,4 +1,6 @@
 {
     "logo": "conf\/logo.png",
-    "info": "<p style=\"text-align: center; \">Revisão: May\/2025 | CPE – Compostos Plásticos de Engenharia<\/p><p style=\"text-align: center; \">Rua Manoel Pinto de Carvalho, 229\/283 - Bairro Limão - São Paulo\/SP&nbsp;<\/p><p style=\"text-align: center; \">&nbsp;CEP:\r\n02712-120<\/p><p style=\"text-align: center; \">Tel.: +55 11 2142-2355&nbsp;<\/p>"
+    "telefone": "(11) 2142-2355",
+    "endereco": "R. Manoel Pinto de Carvalho, 229\u2028Jardim Pereira Leite – São Paulo – SP\u2028CEP: 02712-120",
+    "email": "contato@cpe.ind.br"
 }

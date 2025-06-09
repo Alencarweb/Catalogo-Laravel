@@ -23,7 +23,7 @@ use App\Http\Controllers\Admin\ConfigController;
 
 
 
-// Admin Dashboard protegido
+// middleware group
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('products', AdminProductController::class);
@@ -37,25 +37,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('products/{product}/properties/{type}', [AdminProductController::class, 'listProperties']);
     Route::post('products/{product}/properties/{type}', [AdminProductController::class, 'storeProperty']);
     Route::delete('products/{product}/properties/{id}', [AdminProductController::class, 'deleteProperty']);
-
 });
 
 
-// public routes
-Route::get('/products', [UserProductController::class, 'index']);
-
-// rota para exibir a ficha técnica do produto
 Route::get('/catalogo/layout/{id}', [PublicCatalogController::class, 'show_layout'])->name('catalogo.produto'); 
-Route::get('/catalogo/produto/{id}', [PublicCatalogController::class, 'show'])->name('catalogo.produto'); 
-// rota para gerar o PDF
-Route::get('/catalogo/produto/{id}/pdf', [App\Http\Controllers\PublicCatalogController::class, 'generatePdf'])->name('catalogo.produto.pdf');
+Route::get('api/', [PublicCatalogController::class, 'index'])->name('catalogo.produto'); 
 
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-// logins
+// login
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');

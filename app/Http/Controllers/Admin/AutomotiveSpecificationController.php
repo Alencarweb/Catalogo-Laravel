@@ -59,21 +59,5 @@ class AutomotiveSpecificationController extends Controller
     
         return response()->json(['success' => true]);
     }
-    
-    
-    
-
-    // public function show($productId)
-    // {
-    //     $allSpecs = AutomotiveSpecification::select('specification')->pluck('specification')->unique()->values();
-
-    //     $selectedSpecs = AutomotiveSpecification::where('product_id', $productId)
-    //         ->pluck('specification');
-
-    //     return response()->json([
-    //         'all' => $allSpecs,
-    //         'selected' => $selectedSpecs
-    //     ]);
-    // }
 
 }

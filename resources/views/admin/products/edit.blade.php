@@ -13,7 +13,7 @@
 @csrf
 @method('PUT')
 <div class="w-full mx-auto bg-white shadow p-6 rounded-lg">
-    <h1 class="text-2xl font-bold mb-4">Cadastro de Material</h1>
+    <div>
         @if(session('success'))
             <div class="rounded-md bg-green-50 p-4 mb-6">
                 <div class="flex">
@@ -28,10 +28,52 @@
                 </div>
             </div>
         @endif
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div class="flex justify-between">
+            <h1 class="text-2xl font-bold mb-4">Editar Produto: {{ $product->code }}</h1>
+            <div class="">
+                <label class="flex items-center cursor-pointer">
+                <!-- Switch -->
+                    <div class="relative">
+                        <input type="checkbox" name="enabled" value="1"
+                            class="sr-only peer"
+                            {{ old('enabled', $product->enabled ?? true) ? 'checked' : '' }}>
+
+                        <div class="w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-green-500 transition-colors"></div>
+                        <div class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transition-transform peer-checked:translate-x-5"></div>
+                    </div>
+
+                    <!-- Label -->
+                    <span class="ml-3 text-gray-700">Produto habilitado</span>
+                </label>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
             <div>
                 <label class="block font-semibold mb-1">Nome</label>
                 <input type="text" name="code" class="w-full border px-3 py-1 rounded" value="{{ $product->code }}" />
+            </div>
+            <div>
+                <label class="block font-semibold mb-1">Cor</label>
+                <input type="text" placeholder="cor" name="color"  value="{{ $product->color }}" class="border px-2 py-1 rounded w-full mr-2" />
+            </div>
+            <div>
+                <label class="block font-semibold mb-1">Resina</label>
+                <input type="text" placeholder="resina" name="resin" value="{{$product->resin }}" class="border px-2 py-1 rounded w-full mr-2" />
+            </div>
+        </div>
+  
+        <div class="mt-6 grid grid-cols-1  md:grid-cols-2 gap-6">
+            <div>
+                <div class="mb-3">
+                    <label for="carga" class="form-label">Carga</label>
+                    <input type="text" name="carga" id="carga" class="border px-2 py-1 rounded w-full mr-2" value="{{ old('carga', $product->carga ?? '') }}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="keywords" class="form-label">Palavras-chave</label>
+                    <textarea name="keywords" id="keywords" rows="2" class="w-full border rounded px-3 py-2">{{ old('keywords', $product->keywords ?? '') }}</textarea>
+                </div>
+
             </div>
             <div>
                 <label class="block font-semibold mb-1">Descrição</label>
@@ -42,80 +84,49 @@
                 >{{ $product->description }}</textarea>
             </div>
         </div>
-  
-    <div class="mt-6 grid grid-cols-1  md:grid-cols-2 gap-6">
-    <div class=" grid grid-cols-1 gap-2 md:grid-cols-2">
-        <div>
-            <label class="block font-semibold mb-1">Cor</label>
-            <input type="text" placeholder="cor" name="color"  value="{{ $product->color }}" class="border px-2 py-1 rounded w-full mr-2" />
-        </div>
-        <div>
-            <label class="block font-semibold mb-1">Resina</label>
-            <input type="text" placeholder="resina" name="resin" value="{{$product->resin }}" class="border px-2 py-1 rounded w-full mr-2" />
-        </div>
-    </div>
-    <div>
-    <div class="mb-4">
-    <label class="flex items-center cursor-pointer">
-    <!-- Switch -->
-            <div class="relative">
-                <input type="checkbox" name="enabled" value="1"
-                    class="sr-only peer"
-                    {{ old('enabled', $product->enabled ?? true) ? 'checked' : '' }}>
+    
 
-                <div class="w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-green-500 transition-colors"></div>
-                <div class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transition-transform peer-checked:translate-x-5"></div>
+        <div>
+            <!-- Aplicações Típicas -->
+            <div>
+                <label class="block font-semibold mb-1" >Aplicações Típicas:</label>
+                <textarea name="typical_applications" class="w-full border rounded px-3 py-2" rows="2" >{{ $product->typical_applications }}</textarea>
             </div>
+            <!-- Especificações Automotivas -->
+            <label class="block font-semibold mb-2 mt-4" >Normas:</label>
+            <div x-data="autoSpecManager({{ $product->id }})" x-init="fetchSpecs()">
+                    <div class="grid grid-cols-2 gap-2 h-[300px] overflow-auto">
+                        <template x-for="(spec, index) in allSpecs" :key="index">
+                            <label class="w-fit">
+                                <input
+                                    type="checkbox"
+                                    :value="spec"
+                                    :checked="selectedSpecs.includes(spec)"
+                                    @change="toggle(spec)"
+                                    class="mr-1"
+                                >
+                                <span x-text="spec"></span>
+                            </label>
+                        </template>
+                    </div>
 
-            <!-- Label -->
-            <span class="ml-3 text-gray-700">Produto habilitado</span>
-        </label>
-    </div>
-
-
-    <!-- Aplicações Típicas -->
-    <div class="mt-4">
-    <label class="block font-semibold mb-2" >Aplicações Típicas:</label>
-        <textarea name="typical_applications" class="w-full border rounded px-3 py-2" rows="2" >{{ $product->typical_applications }}</textarea>
-    </div>
-
-
-
-<!-- Especificações Automotivas -->
-<label class="block font-semibold mb-2 mt-4" >Especificações Automotivas:</label>
-<div x-data="autoSpecManager({{ $product->id }})" x-init="fetchSpecs()">
-    <div class="grid grid-cols-2 gap-2">
-        <template x-for="(spec, index) in allSpecs" :key="index">
-            <label>
-                <input
-                    type="checkbox"
-                    :value="spec"
-                    :checked="selectedSpecs.includes(spec)"
-                    @change="toggle(spec)"
-                    class="mr-1"
-                >
-                <span x-text="spec"></span>
-            </label>
-        </template>
-    </div>
-
-    <div class="flex mt-4">
-        <input
-            type="text"
-            x-model="newSpec"
-            placeholder="Adicionar especificação"
-            class="border px-2 py-1 rounded w-full mr-2"
-        >
-        <button
-            type="button"
-            @click="addSpecification"
-            class="bg-blue-600 text-white px-4 py-1 rounded"
-        >
-            Salvar
-        </button>
-    </div>
-</div>
-
+                    <div class="flex mt-4">
+                        <input
+                            type="text"
+                            x-model="newSpec"
+                            placeholder="Adicionar especificação"
+                            class="border px-2 py-1 rounded w-full mr-2"
+                        >
+                        <button
+                            type="button"
+                            @click="addSpecification"
+                            class="bg-blue-600 text-white px-4 py-1 rounded"
+                        >
+                            Salvar
+                        </button>
+                    </div>
+            </div>
+        </div>
 
 <script>
 function autoSpecManager(productId) {
@@ -200,7 +211,7 @@ function autoSpecManager(productId) {
 
 
         
-    </div>
+    
     </div>
 
     <!-- Grupos de propriedades -->

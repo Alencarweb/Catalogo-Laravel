@@ -18,32 +18,23 @@
                 <img src="{{ asset($data['logo']) }}" alt="Logo atual" style="max-height: 80px; margin-top: 10px;">
             @endif
         </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+                <label for="telefone">Telefone:</label><br>
+                <input type="text" name="telefone" id="telefone" class="w-full border px-3 py-1 rounded" value="{{ old('telefone', $data['telefone'] ?? '') }}">
+            </div>
 
-        <div style="margin-bottom: 20px;">
-            <label for="info">Informações:</label><br>
-            <textarea name="info" id="info" class="form-control">{{ old('info', $data['info'] ?? '') }}</textarea>
+            <div>
+                <label for="endereco">Endereço:</label><br>
+                <input type="text" name="endereco" id="endereco" class="w-full border px-3 py-1 rounded" value="{{ old('endereco', $data['endereco'] ?? '') }}">
+            </div>
+
+            <div>
+                <label for="email">E-mail:</label><br>
+                <input type="email" name="email" id="email" class="w-full border px-3 py-1 rounded" value="{{ old('email', $data['email'] ?? '') }}">
+            </div>
         </div>
-
         <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded">Salvar</button>
     </form>
 </div>
-<!-- Editor HTML (Trumbowyg) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/trumbowyg@2.28.0/dist/ui/trumbowyg.min.css">
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/trumbowyg@2.28.0/dist/trumbowyg.min.js"></script>
-<script>
-    $(function () {
-        $('#info').trumbowyg({
-            btns: [
-                ['viewHTML'],
-                ['undo', 'redo'],
-                ['formatting'],
-                ['strong'],
-                ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
-                ['removeformat']
-            ],
-            autogrow: true
-        });
-    });
-</script>
 @endsection

@@ -3,7 +3,7 @@
 @section('title', 'Produtos')
 
 @section('content')
-<div class="container mx-auto  py-6">
+<div class="py-6">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
         <h1 class="text-2xl font-semibold text-gray-900 mb-4 sm:mb-0">Produtos</h1>
         <a href="{{ route('admin.products.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
@@ -30,12 +30,12 @@
     @endif
 
     @if($products->count())
+    <div class="w-full mx-auto bg-white shadow p-6 rounded-lg">
         <div class="overflow-x-auto shadow-md sm:rounded-lg">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Imagem</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Código</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cor</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descrição</th>
@@ -46,13 +46,6 @@
                     @foreach ($products as $product)
                         <tr class="hover:bg-gray-50">
                             <td class="px-2 py-1 whitespace-nowrap text-sm text-gray-500">{{ $loop->iteration }}</td>
-                            <td class="px-2 py-1 whitespace-nowrap">
-                                @if($product->image_url)
-                                    <img src="{{ $product->image_url }}" alt="Imagem" class="h-16 w-16 object-cover rounded">
-                                @else
-                                    <span class="text-sm text-gray-500">Sem imagem</span>
-                                @endif
-                            </td>
                             <td class="px-2 py-1 whitespace-nowrap text-sm text-gray-900">{{ $product->code }}</td>
                             <td class="px-2 py-1 whitespace-nowrap text-sm text-gray-900">{{ $product->color }}</td>
                             <td class="px-2 py-1 text-sm text-gray-900 max-w-xs truncate">{{ Str::limit($product->description, 60) }}</td>
@@ -91,5 +84,6 @@
             <p class="text-sm text-gray-500">Nenhum produto cadastrado.</p>
         </div>
     @endif
+    </div>
 </div>
 @endsection

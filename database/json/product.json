@@ -1,57 +1,53 @@
 {
-  "Produto": "T20HU3B PR",
-  "Cor": "Preto",
-  "imagem":"https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
-  "Descricao":"Polipropileno com carga mineral com estabilização ao calor para longo prazo.",
-  "AplicacoesTipicas": "Partes estruturais, para uso em ambientes de altas temperaturas no interior do capô do automóvel, dutos, carcaças e sistemas de aquecimento e ventilação.",
-  "EspecificacoesAutomotivas": "FIAT 55246 – PP 70.30, FORD WSK M4D-729-A1, GM QK VALEO NVB 10.037-H, VW TL 440/45 PP6",
+  "Produto": "FVL2513 ESU CZ216",
+  "Cor": "Light Sand 2094152",
+  "carga": "fibra de vidro longa",
+  "keywords": "",
+  "resin": "Polipropileno",
+  "Descricao": "Polipropileno reforçado com fibra de vidro longa com estabilização à luz e ao calor para longo prazo.",
+  "AplicacoesTipicas": "Roof shelf.",
+  "EspecificacoesAutomotivas": "SCANIA STD 4376-1-D",
   "Propriedades": {
     "Physical": [
       {
         "Propriedade": "Densidade",
         "Norma": "ISO 1183",
         "Unidade": "g/cm3",
-        "Valor": 1.05
-      },
-      {
-        "Propriedade": "Índice de Fluidez (230oC/2.16 kg)",
-        "Norma": "ISO 1133",
-        "Unidade": "g/10min",
-        "Valor": 23
+        "Valor": 1.04
       },
       {
         "Propriedade": "Teor de carga",
         "Norma": "ISO 3451",
         "Unidade": "%",
-        "Valor": 21
+        "Valor": 20
       }
     ],
     "Mechanical": [
-      { 
+      {
         "Propriedade": "Resistência à Tração no escoamento (50 mm/min)",
         "Norma": "ISO 527",
         "Unidade": "MPa",
-        "Valor": 30
+        "Valor": 80
       },
       {
         "Propriedade": "Módulo de Flexão a 23oC",
         "Norma": "ISO 178",
         "Unidade": "MPa",
-        "Valor": 2400
+        "Valor": 4400
       }
     ],
     "Impact": [
-      { 
-        "Propriedade": "Izod com entalhe 23°C",
-        "Norma": "ISO 180/1A",
-        "Unidade": "kJ/m2",
-        "Valor": 3
-      },
       {
-        "Propriedade": "Charpy com entalhe 23oC",
+        "Propriedade": "Charpy com entalhe 23°C",
         "Norma": "ISO 179/1eA",
         "Unidade": "kJ/m2",
-        "Valor": 4
+        "Valor": 15
+      },
+      {
+        "Propriedade": "Charpy com entalhe -30oC",
+        "Norma": "ISO 179/1eA",
+        "Unidade": "kJ/m2",
+        "Valor": 18
       }
     ],
     "Thermal": [
@@ -59,7 +55,7 @@
         "Propriedade": "Temperatura de Deflexão ao calor (0.45 MPa)",
         "Norma": "ISO 75",
         "Unidade": "˚C",
-        "Valor": 120
+        "Valor": 158
       }
     ],
     "Other": [
@@ -71,5 +67,5 @@
       }
     ]
   },
-  "Observacoes": "Os valores informados são valores típicos e não devem ser utilizados como especificação.  \nO cliente deverá realizar seus próprios testes internamente para verificar a adequabilidade do produto à finalidade a qual se destina.  \nO produto deve ser armazenado em lugar seco, com temperaturas abaixo de 45°C e protegidos da exposição direta ao sol.  \nOs compostos de polipropileno são classificados como materiais não perigosos, e para maiores informações a respeito de segurança, favor consultar o Departamento Técnico para solicitar a F.D.S.  \nMateriais destinados para uso industrial, mas não adequado para aplicações de uso alimentício, farmacêutico e médico."
+  "Observacoes": "Os valores informados são valores típicos e não devem ser utilizados como especificação.\n\nO cliente deverá realizar seus próprios testes internamente para verificar a adequabilidade do produto à finalidade a qual se destina.\n\nO produto deve ser armazenado em lugar seco, com temperaturas abaixo de 45°C e protegidos da exposição direta ao sol.\n\nOs compostos de polipropileno são classificados como materiais não perigosos, e para maiores informações a respeito de segurança, favor consultar o Departamento Técnico para solicitar a F.D.S.\n\nMateriais destinados para uso industrial, mas não adequado para aplicações de uso alimentício, farmacêutico e médico.\n\nRevisão: Maio/2025\n\nCPE -- Compostos Plásticos de Engenharia\n\nRua Manoel Pinto de Carvalho, 229 / 283\n\nBairro Limão -- São Paulo -- SP\n\nCEP: 02712-120\n\nTel.: +55 11 2142-2355"
 }

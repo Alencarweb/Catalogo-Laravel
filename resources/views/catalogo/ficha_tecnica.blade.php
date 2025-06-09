@@ -3,219 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <title>Ficha Técnica - {{ $product->code }}</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.3;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 10px;
-            font-size: 12px;
-        }
-        .footer {
-            width: 350px;
-            text-align: center;
-            margin: 20px auto;
-        }
-        h1 {
-            color: #000;
-            font-size: 16px;
-            border-bottom: 1px solid #000;
-            padding-bottom: 5px;
-            margin-bottom: 10px;
-        }
-        
-        .product-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-        
-        .product-name {
-            font-weight: bold;
-            font-size: 13px;
-        }
-        
-        .product-color {
-            font-weight: bold;
-        }
-        p {
-            margin: 0;
-        }
-        .section {
-            margin-bottom: 10px;
-        }
-        
-        .section-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-            font-size: 12px;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 8px 0;
-            font-size: 11px;
-        }
-        
-        th, td {
-            border: 1px solid #ddd;
-            padding: 4px;
-            text-align: left;
-        }
-        
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-        
-        .note {
-            font-style: italic;
-            margin-top: 10px;
-            font-size: 10px;
-            line-height: 1.2;
-        }
-        
-        .footer {
-            margin-top: 15px;
-            font-size: 10px;
-            line-height: 1.2;
-        }
-        
-        .print-button {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 8px 15px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 12px;
-            margin: 10px 0;
-            cursor: pointer;
-            border-radius: 3px;
-        }
-        
-        @media print {
-            body {
-                padding: 0;
-                margin: 0;
-                font-size: 10pt;
-                line-height: 1.2;
-            }
-            
-            .print-button {
-                display: none;
-            }
-            
-            h1 {
-                font-size: 14pt;
-                margin-top: 0;
-            }
-            
-            table {
-                font-size: 9pt;
-                page-break-inside: avoid;
-            }
-            
-            .section {
-                margin-bottom: 8pt;
-            }
-            
-            .note, .footer {
-                font-size: 8pt;
-            }
-            
-            @page {
-                margin: 0.5cm;
-            }
-        }
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('conf/pdf.css') }}">
 </head>
 <body>
+<div id="content">
+    <div  style="margin:15px;height: 950px;" class="main-content">
+        <div class="product-header">
+            <span class="product-name">{{ $product->code }}</span>
+            <span class="product-color">Cor: {{ $product->color }}</span>
+        </div>
+        <div class="col-3">
+            <div class="section">
+                <div class="section-title">Descrição</div>
+                <p>{{ $product->description }}</p>
+            </div>
 
-    <h1>FICHA TÉCNICA DE PRODUTO</h1>
-    <div class="product-header">
-        <span class="product-name">Produto: {{ $product->code }}</span>
-        <span class="product-color">Cor: {{ $product->color }}</span>
+            <div class="section">
+                <div class="section-title">Aplicações Tipicas</div>
+                <p>{{ $product->typical_applications ?? '-' }}</p>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Normas</div>
+                <p>
+                    @if(count($automotive_specifications) > 0)
+                        {{ implode(', ', $automotive_specifications) }}
+                    @else
+                        -
+                    @endif
+                </p>
+            </div>
+        </div>
+
+        <h1>Detalhes Técnicos</h1>
+
+        <div class="section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Propriedades</th>
+                        <th>Método</th>
+                        <th>Unidade</th>
+                        <th>Valores</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ([
+                        'Físicas' => $product->physicalProperties,
+                        'Mecânicas' => $product->mechanicalProperties,
+                        'Impacto' => $product->impactProperties,
+                        'Térmicas' => $product->thermalProperties,
+                        'Outros' => $product->otherProperties,
+                    ] as $group => $properties)
+                        <tr><td colspan="4" style="background-color: #f2f2f2;font-weight: bold; font-size: 11px;">{{ $group }}</td></tr>
+                        @forelse ($properties as $property)
+                            <tr>
+                                <td>{{ $property->name }}</td>
+                                <td>{{ $property->standard }}</td>
+                                <td>{{ $property->unit }}</td>
+                                <td>{{ $property->value }}</td>
+                            </tr>
+                        @empty
+                            <tr><td colspan="4">Nenhuma propriedade cadastrada.</td></tr>
+                        @endforelse
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        <div class="note">
+            <p><strong>Observação:</strong> {{ $product->observations ?? 'Valores típicos, não devem ser utilizados como especificação...' }}</p>
+        </div>
     </div>
+    <div class="rev">Revisão: {{ \Carbon\Carbon::parse($product->updated_at)->translatedFormat('F/Y') }}</div>
+    <footer class="footer-layout pdf-footer">
+        <div>
+             <img src="{{ asset('conf/cpe-logo.svg') }}"> 
 
-    <div class="section">
-        <div class="section-title">Descrição:</div>
-        <p>{{ $product->description }}</p>
-    </div>
+            <div style="margin-top: 10px;font-size: 12px;width: 120px;line-height: 20px;">Compostos Plásticos de Engenharia</div>
+        </div>
+        <div>
+            <div class="col">
+                <img src="{{ asset('conf/phone.svg') }}"> 
+                <div> (11) 2142-2355</div>
+            </div>
+            <div class="col">
+                <img src="{{ asset('conf/mail.svg') }}"> 
+                <div>contato@cpe.ind.br</div>
+            </div>
+        </div>
+        <div>
+            <div class="col" style="align-items: flex-start;">
+               <img src="{{ asset('conf/local.svg') }}"> 
+               <div>R. Manoel Pinto de Carvalho, 229 Jardim Pereira Leite – São Paulo – SP CEP: 02712-120</div>
 
-    <div class="section">
-        <div class="section-title">Aplicações Tipicas:</div>
-        <p>{{ $product->typical_applications ?? '-' }}</p>
-    </div>
+            </div>
+        </div>
+    </footer>
+</div>
+<br>
+<br>
+<button onclick="gerarPDF()">Baixar PDF</button>
 
-    <div class="section">
-        <div class="section-title">Especificações Automotivas:</div>
-        <p>
-            @if(count($automotive_specifications) > 0)
-                {{ implode(', ', $automotive_specifications) }}
-            @else
-                -
-            @endif
-        </p>
-    </div>
+     
+<script>
+    function gerarPDF() {
+           
+            const elemento = document.getElementById('content');
+            
+            // Usando html2canvas para capturar o elemento como imagem
+            html2canvas(elemento, {
+                scale: 2, // Aumenta a qualidade
+                useCORS: true, // Permite carregar imagens de outros domínios
+                logging: false // Desativa logs no console
+            }).then(canvas => {
+                // Dimensões do canvas
+                const imgData = canvas.toDataURL('image/png');
+                const imgWidth = 210; 
+                const pageHeight = 295; 
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                
+                
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                
+                let heightLeft = imgHeight;
+                let position = 0;
+                let page = 1;
+               
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                    page++;
+                }
+                
+                pdf.save('{{ \Illuminate\Support\Str::slug($product->code) }}.pdf');
+            });
+    }
+</script>
 
-    <div class="section">
-        <div class="section-title">Propriedades:</div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Propriedades</th>
-                    <th>Método</th>
-                    <th>Unidade</th>
-                    <th>Valores</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ([
-                    'Físicas' => $product->physicalProperties,
-                    'Mecânicas' => $product->mechanicalProperties,
-                    'Impacto' => $product->impactProperties,
-                    'Térmicas' => $product->thermalProperties,
-                    'Outros' => $product->otherProperties,
-                ] as $group => $properties)
-                    <tr><td colspan="4" style="font-weight: bold; font-size: 11px;">{{ $group }}</td></tr>
-                    @forelse ($properties as $property)
-                        <tr>
-                            <td>{{ $property->name }}</td>
-                            <td>{{ $property->standard }}</td>
-                            <td>{{ $property->unit }}</td>
-                            <td>{{ $property->value }}</td>
-                        </tr>
-                    @empty
-                        <tr><td colspan="4">Nenhuma propriedade cadastrada.</td></tr>
-                    @endforelse
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-
-    <div class="note">
-        <p><strong>Observação:</strong> {{ $product->observations ?? 'Valores típicos, não devem ser utilizados como especificação...' }}</p>
-    </div>
-
-    <div class="footer">
-        <p>Revisão: {{ $product->updated_at->locale('pt_BR')->format('M/Y') }} | CPE – Compostos Plásticos de Engenharia</p>
-        <p>Rua Manoel Pinto de Carvalho, 229/283 - Bairro Limão - São Paulo/SP - CEP: 02712-120</p>
-        <p>Tel.: +55 11 2142-2355</p>
-    </div>
-
-    <button class="print-button" onclick="window.print()">Imprimir Ficha Técnica</button>
-    <a href="{{ route('catalogo.produto.pdf', $product->id) }}" class="print-button" style="margin-left: 10px; text-decoration: none;">Baixar PDF</a>
-
-    <script>
-        if(window.location.search.includes('?print')) {
-            window.print();
-        }
-       
-    </script>
 </body>
 </html>

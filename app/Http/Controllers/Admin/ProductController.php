@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Property;
-use App\Models\AutomotiveSpecification;
+
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -34,31 +34,12 @@ class ProductController extends Controller
         ]);
     
         $data = $request->all();
-        $data['enabled'] = $request->has('enabled'); // checkbox marcado = true
+        $data['enabled'] = $request->has('enabled'); 
     
         Product::create($data);
     
         return redirect()->route('admin.products.index')
             ->with('success', 'Produto criado com sucesso!');
-
-        // $request->validate([
-        //     'code' => 'required|string|max:255|unique:products,code'
-        // ]);
-        // $data = $request->all();
-        // $data['enabled'] = $request->has('enabled');
-
-
-        // Product::create([
-        //     'code' => $request->code,
-        //     'color' => $request->color,
-        //     'image_url' => $request->image_url,
-        //     'resin' => $request->resin,
-        //     'description' => $request->description,
-        //     'enabled' => 'nullable',
-        //     'observations' => $request->observations,
-        // ]);
-
-        // return redirect()->route('admin.products.index')->with('success', 'Produto criado com sucesso!');
     }
 
     public function edit(Product $product)
@@ -67,7 +48,6 @@ class ProductController extends Controller
         return view('admin.products.edit', compact('product', 'specifications'));
     }
     
-    // Atualizar produto
     public function update(Request $request, Product $product)
     {
         $request->validate([
@@ -79,6 +59,8 @@ class ProductController extends Controller
             'typical_applications' => 'nullable|string',
             'enabled' => 'nullable',
             'observations' => 'nullable|string',
+            'carga' => 'nullable|string',
+            'keywords' => 'nullable|string',
         ]);
     
         $data = $request->all();
