@@ -6,12 +6,6 @@
 <div class="py-6">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
         <h1 class="text-2xl font-semibold text-gray-900 mb-4 sm:mb-0">Produtos</h1>
-        <a href="{{ route('admin.products.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-            <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
-            Novo Produto
-        </a>
     </div>
 
     @if(session('success'))
@@ -29,61 +23,165 @@
         </div>
     @endif
 
-    @if($products->count())
-    <div class="w-full mx-auto bg-white shadow p-6 rounded-lg">
+    <div 
+        x-data="productTable()" 
+        x-init="fetchProducts()" 
+        class="w-full mx-auto bg-white shadow p-6 rounded-lg"
+    >
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-4">
+            <input 
+                x-model="search" 
+                @input="filterProducts" 
+                type="text" 
+                placeholder="Buscar produto..." 
+                class="border rounded px-3 py-2 w-full sm:w-64 mb-2 sm:mb-0"
+            >
+            <button onclick="openCreateProductModal()" class="bg-green-600 text-white px-4 py-2 rounded mb-4">
+                Novo Produto
+            </button>
+        </div>
         <div class="overflow-x-auto shadow-md sm:rounded-lg">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Código</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cor</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descrição</th>
-                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Código</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cor</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descrição</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach ($products as $product)
+                    <template x-for="(product, index) in paginatedProducts()" :key="product.id">
                         <tr class="hover:bg-gray-50">
-                            <td class="px-2 py-1 whitespace-nowrap text-sm text-gray-500">{{ $loop->iteration }}</td>
-                            <td class="px-2 py-1 whitespace-nowrap text-sm text-gray-900">{{ $product->code }}</td>
-                            <td class="px-2 py-1 whitespace-nowrap text-sm text-gray-900">{{ $product->color }}</td>
-                            <td class="px-2 py-1 text-sm text-gray-900 max-w-xs truncate">{{ Str::limit($product->description, 60) }}</td>
+                            <td class="px-2 py-1 whitespace-nowrap text-sm text-gray-500" x-text="(currentPage - 1) * perPage + index + 1"></td>
+                            <td class="px-2 py-1 whitespace-nowrap text-sm text-gray-900" x-text="product.code"></td>
+                            <td class="px-2 py-1 whitespace-nowrap text-sm text-gray-900" x-text="product.color"></td>
+                            <td class="px-2 py-1 text-sm text-gray-900 max-w-xs truncate" x-text="product.description"></td>
                             <td class="px-2 py-1 whitespace-nowrap text-center text-sm font-medium">
                                 <div class="flex flex-col sm:flex-row justify-center gap-2">
-                                    <a href="{{ route('admin.products.edit', $product->id) }}" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                        <svg class="-ml-0.5 mr-1.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                        </svg>
+                                    <a :href="`/admin/products/${product.id}/edit`" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-blue-600 hover:bg-blue-700">
                                         Editar
                                     </a>
-
-                                    <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="inline-block">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" onclick="return confirm('Tem certeza que deseja excluir este produto?');" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                                            <svg class="-ml-0.5 mr-1.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
-                                            Excluir
-                                        </button>
-                                    </form>
+                                    <button @click="deleteProduct(product.id)" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-red-600 hover:bg-red-700">
+                                        Excluir
+                                    </button>
                                 </div>
                             </td>
                         </tr>
-                    @endforeach
+                    </template>
                 </tbody>
             </table>
         </div>
-
-        <div class="mt-4">
-            {{ $products->links() }}
+        <!-- Paginação -->
+        <div class="mt-4 flex justify-center items-center gap-2">
+            <button @click="prevPage" :disabled="currentPage === 1" class="px-3 py-1 bg-gray-200 rounded" :class="{'opacity-50': currentPage === 1}">&lt;</button>
+            <template x-for="page in totalPages()" :key="page">
+                <button @click="goToPage(page)" x-text="page" class="px-3 py-1 rounded" :class="{'bg-blue-500 text-white': currentPage === page, 'bg-gray-200': currentPage !== page}"></button>
+            </template>
+            <button @click="nextPage" :disabled="currentPage === totalPages()" class="px-3 py-1 bg-gray-200 rounded" :class="{'opacity-50': currentPage === totalPages()}">&gt;</button>
         </div>
-    @else
-        <div class="bg-white shadow overflow-hidden sm:rounded-md p-6 text-center">
-            <p class="text-sm text-gray-500">Nenhum produto cadastrado.</p>
-        </div>
-    @endif
     </div>
 </div>
+<div id="createProductModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
+    <div class="bg-white p-6 rounded shadow-lg w-full max-w-md">
+        <h2 class="text-lg font-bold mb-4">Criar Novo Produto</h2>
+        <label class="block mb-2 font-medium">Nome/Código do Produto</label>
+        <input type="text" id="newProductName" class="w-full border px-3 py-2 rounded mb-4" placeholder="Digite o código do produto">
+        <div class="flex justify-end gap-2">
+            <button onclick="closeCreateProductModal()" class="px-4 py-2 rounded bg-gray-300">Cancelar</button>
+            <button onclick="createProduct()" class="px-4 py-2 rounded bg-green-600 text-white">Criar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function productTable() {
+    return {
+        products: [],
+        filtered: [],
+        search: '',
+        currentPage: 1,
+        perPage: 15,
+        fetchProducts() {
+            fetch('api/products')
+                .then(res => res.json())
+                .then(data => {
+                    this.products = data;
+                    this.filtered = data;
+                });
+        },
+        filterProducts() {
+            const term = this.search.toLowerCase();
+            this.filtered = this.products.filter(p =>
+                p.code.toLowerCase().includes(term) ||
+                p.color.toLowerCase().includes(term) ||
+                p.description.toLowerCase().includes(term)
+            );
+            this.currentPage = 1;
+        },
+        paginatedProducts() {
+            const start = (this.currentPage - 1) * this.perPage;
+            return this.filtered.slice(start, start + this.perPage);
+        },
+        totalPages() {
+            return Math.ceil(this.filtered.length / this.perPage) || 1;
+        },
+        goToPage(page) {
+            this.currentPage = page;
+        },
+        prevPage() {
+            if (this.currentPage > 1) this.currentPage--;
+        },
+        nextPage() {
+            if (this.currentPage < this.totalPages()) this.currentPage++;
+        },
+        deleteProduct(id) {
+            if (confirm('Tem certeza que deseja excluir este produto?')) {
+                fetch(`/admin/products/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                }).then(() => this.fetchProducts());
+            }
+        }
+    }
+}
+// add product modal functions
+function openCreateProductModal() {
+    document.getElementById('createProductModal').classList.remove('hidden');
+}
+function closeCreateProductModal() {
+    document.getElementById('createProductModal').classList.add('hidden');
+}
+function createProduct() {
+    const code = document.getElementById('newProductName').value.trim();
+    if (!code) {
+        alert('Informe o nome/código do produto.');
+        return;
+    }
+    fetch("{{ route('admin.products.store') }}", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({ code })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success && data.id) {
+            window.location.href = `/admin/products/${data.id}/edit?success=Produto criado com sucesso!`;
+        } else if(data.errors) {
+            alert(Object.values(data.errors).join('\n'));
+        } else {
+            alert('Erro ao criar produto.');
+        }
+    })
+    .catch(() => alert('Erro ao criar produto.'));
+}
+</script>
 @endsection

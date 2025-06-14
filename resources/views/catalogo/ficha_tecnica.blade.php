@@ -9,7 +9,7 @@
 </head>
 <body>
 <div id="content">
-    <div  style="margin:15px;height: 950px;" class="main-content">
+    <div  style="margin:15px;height: 945px;" class="main-content">
         <div class="product-header">
             <span class="product-name">{{ $product->code }}</span>
             <span class="product-color">Cor: {{ $product->color }}</span>
@@ -37,7 +37,7 @@
             </div>
         </div>
 
-        <h1>Detalhes Técnicos</h1>
+        <h1 style="margin-top: 0px;">Detalhes Técnicos</h1>
 
         <div class="section">
             <table>

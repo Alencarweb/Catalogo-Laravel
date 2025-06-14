@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController as UserProductController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -37,11 +36,21 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('products/{product}/properties/{type}', [AdminProductController::class, 'listProperties']);
     Route::post('products/{product}/properties/{type}', [AdminProductController::class, 'storeProperty']);
     Route::delete('products/{product}/properties/{id}', [AdminProductController::class, 'deleteProperty']);
+
+
+    Route::delete('products/delete-pdf/{product}', [AdminProductController::class, 'deletePdf'])
+    ->name('products.deletePdf');
+
+    Route::delete('products/{id}', [AdminProductController::class, 'apiDestroy']);
+    Route::get('api/products', function () {
+        return \App\Models\Product::all();
+    });
 });
 
 
 Route::get('/catalogo/layout/{id}', [PublicCatalogController::class, 'show_layout'])->name('catalogo.produto'); 
 Route::get('api/', [PublicCatalogController::class, 'index'])->name('catalogo.produto'); 
+
 
 // login
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');

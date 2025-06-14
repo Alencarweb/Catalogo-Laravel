@@ -16,30 +16,30 @@ class ProductController extends Controller
         return view('admin.products.index', compact('products'));
     }
 
-    public function create()
-    {
-        return view('admin.products.create');
-    }
-
     public function store(Request $request)
     {
         $request->validate([
-            'code' => 'required|string|max:255|unique:products,code',
-            'color' => 'nullable|string|max:255',
-            'image_url' => 'nullable|url',
-            'resin' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'enabled' => 'nullable',
-            'observations' => 'nullable|string',
+        'code' => 'required|string|max:255|unique:products,code',
+        'color' => 'nullable|string|max:255',
+        'image_url' => 'nullable|url',
+        'resin' => 'nullable|string|max:255',
+        'description' => 'nullable|string',
+        'enabled' => 'nullable',
+        'observations' => 'nullable|string',
         ]);
-    
+
         $data = $request->all();
-        $data['enabled'] = $request->has('enabled'); 
-    
-        Product::create($data);
-    
+        $data['enabled'] = $request->has('enabled');
+
+        $product = Product::create($data);
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json(['success' => true, 'id' => $product->id]);
+        }
+
         return redirect()->route('admin.products.index')
             ->with('success', 'Produto criado com sucesso!');
+
     }
 
     public function edit(Product $product)
@@ -61,11 +61,17 @@ class ProductController extends Controller
             'observations' => 'nullable|string',
             'carga' => 'nullable|string',
             'keywords' => 'nullable|string',
+            'pdf' => 'nullable|file|mimes:pdf|max:2048',
         ]);
     
         $data = $request->all();
         $data['enabled'] = $request->has('enabled');
-    
+
+        if ($request->hasFile('pdf')) {
+            $pdfPath = $request->file('pdf')->store('products/pdfs', 'public');
+            $data['pdf_path'] = $pdfPath;
+        }
+
         $product->update($data);
     
         return redirect()->route('admin.products.edit', $product->id)
@@ -73,10 +79,28 @@ class ProductController extends Controller
 
     }
 
+    public function deletePdf(Product $product)
+    {
+        if ($product->pdf_path && \Storage::disk('public')->exists($product->pdf_path)) {
+            \Storage::disk('public')->delete($product->pdf_path);
+        }
+
+        $product->update(['pdf_path' => null]);
+
+        return redirect()->route('admin.products.edit', $product->id)
+            ->with('success', 'PDF removido com sucesso!');
+    }
+
     public function destroy(Product $product)
     {
         $product->delete();
         return redirect()->route('admin.products.index')->with('success', 'Produto deletado com sucesso!');
+    }
+    public function apiDestroy($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->delete();
+        return response()->json(['success' => true]);
     }
 
     public function listProperties($productId, $type)

@@ -9,7 +9,7 @@
 
 
 <!-- <hr>--------------------------------------------------------------------------------------  -->
-<form action="{{ route('admin.products.update', $product->id) }}" method="POST">    
+<form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">    
 @csrf
 @method('PUT')
 <div class="w-full mx-auto bg-white shadow p-6 rounded-lg">
@@ -30,7 +30,7 @@
         @endif
         <div class="flex justify-between">
             <h1 class="text-2xl font-bold mb-4">Editar Produto: {{ $product->code }}</h1>
-            <div class="">
+            <div class="flex items-center gap-[15px]">
                 <label class="flex items-center cursor-pointer">
                 <!-- Switch -->
                     <div class="relative">
@@ -45,6 +45,7 @@
                     <!-- Label -->
                     <span class="ml-3 text-gray-700">Produto habilitado</span>
                 </label>
+                
             </div>
         </div>
         <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -530,71 +531,146 @@ function autoSpecManager(productId) {
     </div>
 
     <div class="mt-6 text-right">
-    <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded">
-        Salvar Material
-    </button>
+        <div class="w-full">
+            @if($product->pdf_path)
+              
+                <div class="form-group mt-2">
+                    <label for="pdf" class="block text-sm font-medium text-gray-700 mb-1">Anexe novo PDF para alterar</label>
+                    <input type="file" name="pdf" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" accept="application/pdf">
+                </div>
+            @else
+                <span class="text-gray-500"></span>
+                    <a target="_blank" href="{{ url('catalogo/layout/' . $product->id) }}" class="bg-[#1f2937] w-full inline-flex justify-center items-center px-4 py-2 text-white text-sm font-medium rounded hover:bg-blue-700 transition-colors mb-2 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text-icon lucide-file-text"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+                    PDF padrão do sistema
+                    </a>
+                <div class="form-group mt-2">
+                    <label for="pdf" class="block text-sm font-medium text-gray-700 mb-1">Anexe o PDF customizado</label>
+                    <input type="file" name="pdf" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" accept="application/pdf">
+                </div>
+            @endif
+            
+        </div>   
+        <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded mt-4">
+            Salvar Material
+        </button>
     </div>
 </div>
 </form>
+
+@if($product->pdf_path)
+<div class="w-full mx-auto bg-white shadow p-6 rounded-lg mt-2 gap-4 flex justify-center">
+    <div>
+        <form action="{{ route('admin.products.deletePdf', $product->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir o PDF?')">
+            @csrf
+            @method('DELETE')
+            <button type="submit"
+                class="inline-flex items-center px-4 py-2 bg-red-600 text-white text-sm font-medium rounded hover:bg-red-700 transition-colors">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M3 6h18"/>
+                    <path d="M8 6v12a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6"/>
+                    <path d="M10 11v6"/>
+                    <path d="M14 11v6"/>
+                </svg>
+                Excluir PDF customizado
+            </button>
+        </form>
+    </div>
+    <div>
+        <a href="{{ asset('storage/' . $product->pdf_path) }}" target="_blank"
+        class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition-colors mb-2">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/>
+                <path d="M14 2v4a2 2 0 0 0 2 2h4"/>
+                <path d="M10 9H8"/>
+                <path d="M16 13H8"/>
+                <path d="M16 17H8"/>
+            </svg>
+            Ver PDF enexado customizado
+        </a>
+    </div>
+</div>
+@endif
+
 <script>
-        function propertyForm(productId, type) {
-            return {
-                list: [],
-                form: {
-                    name: '',
-                    standard: '',
-                    unit: '',
-                    value: ''
-                },
-                showForm: false,
+    function deletePdf(productId) {
+        if (!confirm('Tem certeza que deseja excluir o PDF?')) return;
 
-                init() {
-                    this.load();
-                },
+        fetch(`/admin/products/${productId}/delete-pdf`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                location.reload(); // Recarrega a página para atualizar a view
+            } else {
+                alert('Erro ao remover PDF.');
+            }
+        })
+        .catch(() => alert('Erro ao remover PDF.'));
+    }
+    
+    function propertyForm(productId, type) {
+        return {
+            list: [],
+            form: {
+                name: '',
+                standard: '',
+                unit: '',
+                value: ''
+            },
+            showForm: false,
 
-                toggleForm() {
-                    this.showForm = !this.showForm;
-                },
+            init() {
+                this.load();
+            },
 
-                load() {
-                    fetch(`/admin/products/${productId}/properties/${type}`)
-                        .then(res => res.json())
-                        .then(data => {
-                            console.log(`Propriedades ${type}:`, data);
-                            this.list = data;
-                        })
-                        .catch(error => console.error('Erro ao carregar propriedades:', error));
-                },
+            toggleForm() {
+                this.showForm = !this.showForm;
+            },
 
-                save() {
-                    fetch(`/admin/products/${productId}/properties/${type}/`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({ ...this.form, type })
-                    })
+            load() {
+                fetch(`/admin/products/${productId}/properties/${type}`)
                     .then(res => res.json())
-                    .then(() => {
-                        this.form = { name: '', standard: '', unit: '', value: '' };
-                        this.load();
+                    .then(data => {
+                        console.log(`Propriedades ${type}:`, data);
+                        this.list = data;
                     })
-                    .catch(error => console.error('Erro ao salvar propriedade:', error));
-                },
+                    .catch(error => console.error('Erro ao carregar propriedades:', error));
+            },
 
-                remove(id) {
-                    if (!confirm('Tem certeza que deseja excluir esta propriedade?')) return;
+            save() {
+                fetch(`/admin/products/${productId}/properties/${type}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ ...this.form, type })
+                })
+                .then(res => res.json())
+                .then(() => {
+                    this.form = { name: '', standard: '', unit: '', value: '' };
+                    this.load();
+                })
+                .catch(error => console.error('Erro ao salvar propriedade:', error));
+            },
 
-                    fetch(`/admin/products/${productId}/properties/${id}`, {
-                        method: 'DELETE',
-                        headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
-                    })
-                    .then(() => this.load())
-                    .catch(error => console.error('Erro ao excluir propriedade:', error));
-                }
+            remove(id) {
+                if (!confirm('Tem certeza que deseja excluir esta propriedade?')) return;
+
+                fetch(`/admin/products/${productId}/properties/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+                })
+                .then(() => this.load())
+                .catch(error => console.error('Erro ao excluir propriedade:', error));
             }
         }
+    }
 </script>
 
 

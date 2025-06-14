@@ -7,16 +7,21 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gradient-to-br from-blue-100 to-gray-300 min-h-screen flex items-center justify-center">
-    <div class="bg-gray-900 px-10 py-12 rounded-3xl shadow-2xl w-full max-w-md flex flex-col items-center gap-4">
-        <div class="flex justify-center mb-4">
-            <svg class="w-16 h-16 text-blue-50" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
-                <path stroke="currentColor" stroke-width="2" fill="none" d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
-            </svg>
+    <div class="bg-gray-900 px-3 py-3 m-4 rounded-3xl shadow-2xl w-full max-w-md flex flex-col items-center gap-2">
+        <div class="flex justify-center">
+            <?php
+                $config = json_decode(file_get_contents(public_path('conf/info.json')), true);
+            ?>
+            @if(!empty($config['logo']))
+                <img src="{{ asset($config['logo']) }}" alt="Logo" class="filter invert p-[15px]">
+            @else
+                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="filter invert p-[15px]">
+                <svg class="w-16 h-16 text-blue-50" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <path stroke="currentColor" stroke-width="2" fill="none" d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+                </svg>
+            @endif
         </div>
-        <h2 class="text-3xl font-extrabold text-center text-blue-50 mb-1">Bem-vindo!</h2>
-        <p class="text-center text-gray-400 mb-6">Faça login para continuar</p>
-        
         @if ($errors->any())
             <div class="w-full bg-red-500 text-white px-4 py-2 rounded-lg mb-4">
                 <strong>Erro!</strong> {{ $errors->first() }}

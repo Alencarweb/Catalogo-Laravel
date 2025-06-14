@@ -9,7 +9,7 @@ class Product extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['code', 'color','creat_at','enabled','typical_applications','resin', 'image_url', 'description', 'observations', 'carga', 'keywords'];
+    protected $fillable = ['code', 'pdf_path','color','creat_at','enabled','typical_applications','resin', 'image_url', 'description', 'observations', 'carga', 'keywords'];
 
     public function automotiveSpecifications()
     {
