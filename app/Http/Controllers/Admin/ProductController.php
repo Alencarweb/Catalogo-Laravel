@@ -125,6 +125,23 @@ class ProductController extends Controller
         return Property::create($validated);
     }
 
+    public function updateProperty(Request $request, $productId, $propertyId)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'standard' => 'nullable|string',
+            'unit' => 'nullable|string',
+            'value' => 'required|string',
+        ]);
+
+        $property = \App\Models\Property::where('product_id', $productId)
+            ->where('id', $propertyId)
+            ->firstOrFail();
+
+        $property->update($validated);
+
+        return response()->json(['success' => true]);
+    }
     public function deleteProperty($productId, $propertyId)
     {
         Property::where('product_id', $productId)

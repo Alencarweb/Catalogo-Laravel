@@ -28,6 +28,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('products', AdminProductController::class);
     Route::get('config', [ConfigController::class, 'index'])->name('config.index');
     Route::post('config', [ConfigController::class, 'save'])->name('config.save');
+    Route::put('/products/{product}/properties/{property}', [\App\Http\Controllers\Admin\ProductController::class, 'updateProperty'])->name('admin.products.properties.update');
 
     // api
     Route::get('automotive-specifications/{product}', [AutomotiveSpecificationController::class, 'list'])->name('automotive-specifications.list');

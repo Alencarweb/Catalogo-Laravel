@@ -12,7 +12,7 @@
 <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">    
 @csrf
 @method('PUT')
-<div class="w-full mx-auto bg-white shadow p-6 rounded-lg">
+<div class="w-full mx-auto bg-white shadow p-2 md:p-4 rounded-lg">
     <div>
         @if(session('success'))
             <div class="rounded-md bg-green-50 p-4 mb-6">
@@ -228,11 +228,11 @@ function autoSpecManager(productId) {
 
             <div class="flex items-center justify-between mb-2">
                 <span class="font-semibold">Físicas</span>
-                <button type="button" @click="toggleForm()" class="text-gray-600 text-sm hover:underline">+</button>
+                <button type="button" @click="toggleForm()" class="text-gray-600 text-sm hover:underline"><svg class="w-[15px]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-plus-icon lucide-square-plus"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></button>
             </div>
 
             <div x-show="showForm" class="mb-4">
-                <div class="grid grid-cols-5 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
                     <div>
                         <label class="block font-semibold mb-1">Propriedade</label>
                         <input type="text" x-model="form.name" class="w-full border px-3 py-1 rounded">
@@ -272,7 +272,10 @@ function autoSpecManager(productId) {
                         <td class="p-1" x-text="item.standard || '-'"></td>
                         <td class="p-1" x-text="item.unit || '-'"></td>
                         <td class="p-1" x-text="item.value"></td>
-                        <td class="p-1 text-red-500 cursor-pointer" @click="remove(item.id)">Excluir</td>
+                        <td class="p-1 text-red-500 flex gap-2">
+                            <a class="cursor-pointer" @click="remove(item.id)"><svg class="w-[15px]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></a>
+                            <a class="cursor-pointer" @click="edit(item)"><svg class="w-[15px]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg></a>
+                        </td>
                     </tr>
                 </template>
                 </tbody>
@@ -286,12 +289,12 @@ function autoSpecManager(productId) {
 
             <div class="flex items-center justify-between mb-2">
                 <span class="font-semibold">Mecânicas</span>
-                <button type="button" @click="toggleForm()" class="text-gray-600 text-sm hover:underline">+</button>
+                <button type="button" @click="toggleForm()" class="text-gray-600 text-sm hover:underline"><svg class="w-[15px]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-plus-icon lucide-square-plus"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></button>
             </div>
 
            
             <div x-show="showForm" class="mb-4">
-                <div class="grid grid-cols-5 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
                     <div>
                         <label class="block font-semibold mb-1">Propriedade</label>
                         <input type="text" x-model="form.name" class="w-full border px-3 py-1 rounded">
@@ -331,7 +334,10 @@ function autoSpecManager(productId) {
                         <td class="p-1" x-text="item.standard"></td>
                         <td class="p-1" x-text="item.unit"></td>
                         <td class="p-1" x-text="item.value"></td>
-                        <td class="p-1 text-red-500 cursor-pointer" @click="remove(item.id)">Excluir</td>
+                        <td class="p-1 text-red-500 flex gap-2">
+                            <a class="cursor-pointer" @click="remove(item.id)"><svg class="w-[15px]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></a>
+                            <a class="cursor-pointer" @click="edit(item)"><svg class="w-[15px]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg></a>
+                        </td>
                     </tr>
                 </template>
                 </tbody>
@@ -345,12 +351,12 @@ function autoSpecManager(productId) {
 
             <div class="flex items-center justify-between mb-2">
                 <span class="font-semibold">Impacto</span>
-                <button type="button" @click="toggleForm()" class="text-gray-600 text-sm hover:underline">+</button>
+                <button type="button" @click="toggleForm()" class="text-gray-600 text-sm hover:underline"><svg class="w-[15px]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-plus-icon lucide-square-plus"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></button>
             </div>
 
            
             <div x-show="showForm" class="mb-4">
-                <div class="grid grid-cols-5 gap-6">
+                <div class="grid grid-cols-grid-cols-1 md:grid-cols-5 gap-6">
                     <div>
                         <label class="block font-semibold mb-1">Propriedade</label>
                         <input type="text" x-model="form.name" class="w-full border px-3 py-1 rounded">
@@ -390,7 +396,10 @@ function autoSpecManager(productId) {
                         <td class="p-1" x-text="item.standard"></td>
                         <td class="p-1" x-text="item.unit"></td>
                         <td class="p-1" x-text="item.value"></td>
-                        <td class="p-1 text-red-500 cursor-pointer" @click="remove(item.id)">Excluir</td>
+                        <td class="p-1 text-red-500 flex gap-2">
+                            <a class="cursor-pointer" @click="remove(item.id)"><svg class="w-[15px]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></a>
+                            <a class="cursor-pointer" @click="edit(item)"><svg class="w-[15px]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg></a>
+                        </td>
                     </tr>
                 </template>
                 </tbody>
@@ -404,12 +413,12 @@ function autoSpecManager(productId) {
 
             <div class="flex items-center justify-between mb-2">
                 <span class="font-semibold">Térmicas</span>
-                <button type="button" @click="toggleForm()" class="text-gray-600 text-sm hover:underline">+</button>
+                <button type="button" @click="toggleForm()" class="text-gray-600 text-sm hover:underline"><svg class="w-[15px]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-plus-icon lucide-square-plus"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></button>
             </div>
 
            
             <div x-show="showForm" class="mb-4">
-                <div class="grid grid-cols-5 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
                     <div>
                         <label class="block font-semibold mb-1">Propriedade</label>
                         <input type="text" x-model="form.name" class="w-full border px-3 py-1 rounded">
@@ -449,7 +458,10 @@ function autoSpecManager(productId) {
                         <td class="p-1" x-text="item.standard"></td>
                         <td class="p-1" x-text="item.unit"></td>
                         <td class="p-1" x-text="item.value"></td>
-                        <td class="p-1 text-red-500 cursor-pointer" @click="remove(item.id)">Excluir</td>
+                        <td class="p-1 text-red-500 flex gap-2">
+                            <a class="cursor-pointer" @click="remove(item.id)"><svg class="w-[15px]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></a>
+                            <a class="cursor-pointer" @click="edit(item)"><svg class="w-[15px]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg></a>
+                        </td>
                     </tr>
                 </template>
                 </tbody>
@@ -464,12 +476,12 @@ function autoSpecManager(productId) {
 
             <div class="flex items-center justify-between mb-2">
                 <span class="font-semibold">Outros</span>
-                <button type="button" @click="toggleForm()" class="text-gray-600 text-sm hover:underline">+</button>
+                <button type="button" @click="toggleForm()" class="text-gray-600 text-sm hover:underline"><svg class="w-[15px]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-plus-icon lucide-square-plus"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></button>
             </div>
 
            
             <div x-show="showForm" class="mb-4">
-                <div class="grid grid-cols-5 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
                     <div>
                         <label class="block font-semibold mb-1">Propriedade</label>
                         <input type="text" x-model="form.name" class="w-full border px-3 py-1 rounded">
@@ -509,7 +521,10 @@ function autoSpecManager(productId) {
                         <td class="p-1" x-text="item.standard"></td>
                         <td class="p-1" x-text="item.unit"></td>
                         <td class="p-1" x-text="item.value"></td>
-                        <td class="p-1 text-red-500 cursor-pointer" @click="remove(item.id)">Excluir</td>
+                         <td class="p-1 text-red-500 flex gap-2">
+                            <a class="cursor-pointer" @click="remove(item.id)"><svg class="w-[15px]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></a>
+                            <a class="cursor-pointer" @click="edit(item)"><svg class="w-[15px]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg></a>
+                        </td>
                     </tr>
                 </template>
                 </tbody>
@@ -643,20 +658,40 @@ function autoSpecManager(productId) {
             },
 
             save() {
-                fetch(`/admin/products/${productId}/properties/${type}/`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({ ...this.form, type })
-                })
-                .then(res => res.json())
-                .then(() => {
-                    this.form = { name: '', standard: '', unit: '', value: '' };
-                    this.load();
-                })
-                .catch(error => console.error('Erro ao salvar propriedade:', error));
+                if (this.form.id) {
+                    // Editar existente
+                    fetch(`/admin/products/${productId}/properties/${this.form.id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify(this.form)
+                    })
+                    .then(() => {
+                        this.form = { name: '', standard: '', unit: '', value: '', id: null };
+                        this.load();
+                    });
+                } else {
+                    // Criar novo
+                    fetch(`/admin/products/${productId}/properties/${type}/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify(this.form)
+                    })
+                    .then(() => {
+                        this.form = { name: '', standard: '', unit: '', value: '', id: null };
+                        this.load();
+                    });
+                }
+            },
+
+            edit(item) {
+                this.form = { ...item };
+                this.showForm = true;
             },
 
             remove(id) {

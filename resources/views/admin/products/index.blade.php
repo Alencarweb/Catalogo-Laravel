@@ -28,7 +28,8 @@
         x-init="fetchProducts()" 
         class="w-full mx-auto bg-white shadow p-6 rounded-lg"
     >
-        <div class="flex flex-col sm:flex-row justify-between items-center mb-4">
+        <div class="flex flex-col-reverse items-end sm:flex-row sm:items-center justify-between mb-4">
+            
             <input 
                 x-model="search" 
                 @input="filterProducts" 
