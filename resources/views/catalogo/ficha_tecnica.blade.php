@@ -97,16 +97,28 @@
         <div>
             <div class="col" style="align-items: flex-start;">
                <img src="{{ asset('conf/local.svg') }}"> 
-               <div>R. Manoel Pinto de Carvalho, 229 Jardim Pereira Leite – São Paulo – SP CEP: 02712-120</div>
+               <div>R. Manoel Pinto de Carvalho, 229Jardim Pereira Leite – São Paulo – SPCEP: 02712-120</div>
 
             </div>
         </div>
     </footer>
 </div>
-<br>
-<br>
-<button onclick="gerarPDF()">Baixar PDF</button>
 
+<div class="modals-download">
+    <div class="agradecimento-bg">
+    <div class="agradecimento-titulo">
+        Obrigado Por Conhecer<br>Nossos Produtos
+    </div>
+    <div class="agradecimento-botoes">
+        <a href="#" onclick="gerarPDF()" class="agradecimento-btn sheet">
+        Download Data Sheet
+        </a>
+        <a href="#" class="agradecimento-btn consultor">
+        Falar com um Consultor
+        </a>
+    </div>
+    </div>
+</div>
      
 <script>
     function gerarPDF() {

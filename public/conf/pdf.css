@@ -169,7 +169,7 @@
                 line-height: 1.2;
             }
             
-            .print-button {
+            .modals-download {
                 display: none;
             }
             
@@ -177,7 +177,9 @@
                 font-size: 14pt;
                 margin-top: 0;
             }
-            
+            .no-print {
+                display: none;
+            }
             table {
                 font-size: 9pt;
                 page-break-inside: avoid;
@@ -195,3 +197,67 @@
                 margin: 0.5cm;
             }
         }
+
+
+        
+
+  .agradecimento-bg {
+    background: #23282a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+       width: 350px;
+    margin: auto;
+    height: 350px;
+    position: relative;
+    top: 262px;
+  }
+  .agradecimento-titulo {
+    color: #e6c87a;
+   font-size: 25px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .agradecimento-botoes {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 320px;
+  }
+  .agradecimento-btn {
+    width: 100%;
+    border-radius: 9999px;
+    font-size: 1.125rem;
+    font-weight: 500;
+    padding: 0.75rem 0;
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+    transition: background 0.2s;
+    display: block;
+  }
+  .agradecimento-btn.sheet {
+    background: #5a6b73;
+  }
+  .agradecimento-btn.sheet:hover {
+    background: #4a5a61;
+  }
+  .agradecimento-btn.consultor {
+    background: #6b7c06;
+  }
+  .agradecimento-btn.consultor:hover {
+    background: #556304;
+  }
+.agradecimento-bg {
+ 
+}
+.modals-download {
+    position: fixed;
+    width: 800px;
+    height: 100%;
+    background-color: #141B2066;
+}
